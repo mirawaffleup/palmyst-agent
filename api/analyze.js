@@ -1,10 +1,5 @@
-const OpenAI = require('openai');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 const { createClient } = require('@supabase/supabase-js');
-
-// Initialize the OpenAI client with your API key from Vercel's environment variables
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-});
 
 // This is the main function that Vercel will run
 export default async function handler(req, res) {
@@ -16,8 +11,10 @@ export default async function handler(req, res) {
     try {
         const { name, phone, image_data, q4_answer, q5_answer } = req.body;
 
-        // --- Part 1: AI Analysis using OpenAI GPT-4o ---
-        
+        // --- Part 1: AI Analysis using Gemini ---
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro' });
+
         const prompt = `
             You are a precise and methodical palmistry analyst. Your task is to analyze the user-provided image of a palm by following a strict, step-by-step geometric and logical process. Do not jump to conclusions. You must reason through each step before making a determination.
 
@@ -54,30 +51,18 @@ export default async function handler(req, res) {
 
             Begin the report now based on the image provided.
         `;
-
-        // This is the new API call to OpenAI
-        const response = await openai.chat.completions.create({
-            model: "gpt-4o", // Using the latest vision model
-            messages: [
-                {
-                    role: "user",
-                    content: [
-                        { type: "text", text: prompt },
-                        {
-                            type: "image_url",
-                            image_url: {
-                                "url": `data:image/jpeg;base64,${image_data}`
-                            },
-                        },
-                    ],
-                },
-            ],
-            max_tokens: 500 // Limit the length of the response
-        });
         
-        const ai_reading = response.choices[0].message.content;
+        const image_parts = [{
+            inlineData: {
+                data: image_data,
+                mimeType: 'image/jpeg'
+            }
+        }];
 
-        // --- Part 2: Save to Supabase Database (This part remains the same) ---
+        const result = await model.generateContent([prompt, ...image_parts]);
+        const ai_reading = result.response.text();
+
+        // --- Part 2: Save to Supabase Database ---
         const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
 
         const { data, error } = await supabase
