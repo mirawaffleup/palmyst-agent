@@ -47,7 +47,8 @@ export default async function handler(req, res) {
             
             DO NOT mention fingers, knuckles, lines, or any measurement process.       
             DO NOT list rules or comparisons.
-            
+
+            give a simple and straightforward reading.
             
             Begin the reading now.
         `;
