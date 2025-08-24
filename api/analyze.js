@@ -13,7 +13,7 @@ export default async function handler(req, res) {
 
         // --- Part 1: AI Analysis using Gemini ---
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro' });
+        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
         const prompt = `
             You are a precise and methodical palmistry analyst. Your task is to analyze the user-provided image of a palm by following a strict, step-by-step geometric and logical process. Do not jump to conclusions. You must reason through each step before making a determination.
