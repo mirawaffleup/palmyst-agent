@@ -42,7 +42,7 @@ export default async function handler(req, res) {
             Base bends easily → if yes-“flexible family background”, if no-“inflexible family background/ family members are stubborn.”
             
             Final Output Instructions (ONLY generate this):
-            Write a single, flowing paragraph in the second person (“You are…”, “You possess…”).          
+            Write two, flowing paragraph in the second person (“You are…”, “You possess…”).          
             Blend all traits into a cohesive, narrative-style personality reading.
             
             DO NOT mention fingers, knuckles, lines, or any measurement process.       
