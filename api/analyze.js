@@ -23,19 +23,23 @@ export default async function handler(req, res) {
             Little Finger vs. Ring Finger Knuckle:            
             Visualize a horizontal line from the top knuckle crease of the ring finger.      
             Determine if the little finger tip is above (clear and transparent mind) or below (cleverness/shrewdness).     
+            
             Index Finger vs. Ring Finger Length:     
             Compare their lengths from the palm baseline 
             Taller index → high leadership / lower organization.
             Shorter index → lower leadership / higher organization. 
             Equal → balanced mix.
+            
             Middle Finger Prominence:  
             Determine if the middle finger is considerably taller than the index and ring fingers.  
             If yes → good fortune, gambling aptitude.
+            
             Fortune Line:
-            Check if the vertical palm line is continuous (good future luck).
+            Check if the line of fortune (the vertical line in the middle of the palm) is continuous it means good future luck.
+
             Thumb Analysis (user-provided answers):
-            Middle knuckle flexibility → “personal flexibility” or “inflexibility/stubbornness.”
-            Base flexibility → “flexible family background” or “inflexible family background.”
+            Middle knuckle flexibility → if present-“personal flexibility”, if not flexible- “inflexibility/stubbornness.”
+            Base flexibility → if flexible-“flexible family background”, if not flexible-“inflexible family background/ family members are stubborn.”
             
             Final Output Instructions (ONLY generate this):
             Write a single, flowing paragraph in the second person (“You are…”, “You possess…”).          
