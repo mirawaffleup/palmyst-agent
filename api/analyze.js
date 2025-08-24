@@ -15,34 +15,47 @@ export default async function handler(req, res) {
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
         const model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro' }); // Using the latest efficient model
 
-        const prompt = `
-            You are PalMyst Agent, an expert in palmistry based on a specific set of rules.
-            Analyze the provided image of a palm and generate a personality reading.
-            Follow these rules ONLY:
+                const prompt = `
+            You are a precise and methodical palmistry analyst. Your task is to analyze the user-provided image of a palm by following a strict, step-by-step geometric and logical process. Do not jump to conclusions. You must reason through each step before making a determination.
 
-            1.  **Little finger vs. ring finger:** Compare the tip of the little finger to the top knuckle line of the ring finger. State your finding and the resulting trait:
-                *   If shorter: "indicates cleverness or shrewdness."
-                *   If taller: "indicates a clear and transparent mind."
+            **Step-by-Step Analysis Protocol:**
 
-            2.  **Index finger vs. ring finger:** Compare the lengths of the index and ring fingers. State your finding and the resulting trait:
-                *   If index is taller: "indicates high leadership and lower organization."
-                *   If index is shorter: "indicates lower leadership and higher organization."
-                *   If heights are equal: "indicates a balanced mix of leadership and organization."
+            1.  **Orient the Hand:** First, identify the orientation of the hand in the image. Note the position of the fingers relative to the palm and wrist to establish a baseline for your measurements.
 
-            3.  **Middle finger prominence:** Observe if the middle finger is significantly taller than the index and ring fingers. State your finding and the resulting trait:
-                *   If considerably taller: "indicates good fortune and aptitude for gambling."
+            2.  **Rule 1 Analysis (Little Finger vs. Ring Finger Knuckle):**
+                *   Identify the top knuckle crease (distal interphalangeal joint) of the ring finger.
+                *   Visualize a perfectly horizontal line extending from this crease across to the little finger, adjusting for any curvature or tilt of the hand. This line must be perpendicular to the general direction of the fingers.
+                *   Determine if the fleshy tip of the little finger rests above or below this visualized line.
+                *   State your finding clearly in your internal thought process before moving on.
 
-            4.  **Fortune line:** Identify the main vertical line in the center of the palm. State your finding and the resulting trait:
-                *   If the line is uninterrupted: "indicates good luck in future life."
-                *   If the line is broken or absent: This indicates the opposite, but phrase it gently.
+            3.  **Rule 2 Analysis (Index Finger vs. Ring Finger Length):**
+                *   To accurately compare lengths and ignore the effects of hand tilt or finger curl, visualize a baseline at the bottom of the fingers where they meet the palm.
+                *   Now, visualize two parallel lines running alongside the index and ring fingers, perpendicular to your baseline.
+                *   Project the highest point of the fleshy tip of the index finger and the ring finger onto these parallel lines.
+                *   Compare the projected lengths. Is the index finger's projection clearly taller, shorter, or approximately equal to the ring finger's projection?
+                *   State this finding clearly in your internal thought process.
 
-            Based on the user's answers to the thumb questions, add the following traits:
-            - Thumb flexibility (middle knuckle): ${q4_answer === 'yes' ? 'indicates personal flexibility.' : 'indicates inflexibility or stubbornness.'}
-            - Thumb flexibility (base): ${q5_answer === 'yes' ? 'indicates a flexible family.' : 'indicates an inflexible family.'}
+            4.  **Rule 3 Analysis (Middle Finger Prominence):**
+                *   Compare the length of the middle finger to the index and ring fingers using the same projection method as in Step 3.
+                *   The condition is met only if the middle finger is "considerably taller," meaning its tip extends significantly beyond the tips of the other two. A small difference is not enough.
 
-            Combine all these observations into a cohesive, narrative-style personality reading. Start with a greeting and present the findings as a paragraph. Do not just list the rules.
+            5.  **Rule 4 Analysis (Fortune Line):**
+                *   Carefully trace the primary vertical line that runs up the center of the palm.
+                *   Determine if this line is a single, continuous, and unbroken line from its start to its end. Ignore minor skin texture, focusing on major breaks or gaps.
+
+            **Final Report Generation:**
+
+            After completing your step-by-step analysis, synthesize your findings into a cohesive, narrative-style personality reading. Do not just list the rules. Explain what you saw and what it means. Use the following traits for your conclusions:
+
+            *   **Little Finger:** Shorter -> "cleverness or shrewdness." Taller -> "a clear and transparent mind."
+            *   **Index Finger:** Taller -> "high leadership and lower organization." Shorter -> "lower leadership and higher organization." Equal -> "a balanced mix of leadership and organization."
+            *   **Middle Finger:** Considerably Taller -> "good fortune and aptitude for gambling."
+            *   **Fortune Line:** Uninterrupted -> "good luck in your future life."
+            *   **User-Provided Thumb Info (Middle Knuckle):** Incorporate the user's answer: ${q4_answer === 'yes' ? '"personal flexibility."' : '"inflexibility or stubbornness."'}
+            *   **User-Provided Thumb Info (Base):** Incorporate the user's answer: ${q5_answer === 'yes' ? '"a flexible family background."' : '"an inflexible family background."'}
+
+            Begin the report now based on the image provided.
         `;
-
         const image_parts = [{
             inlineData: {
                 data: image_data,
