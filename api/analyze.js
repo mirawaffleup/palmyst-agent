@@ -1,4 +1,4 @@
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const { createClient } = require('@supabase/supabase-js');
 
 // This is the main function that Vercel will run
@@ -38,8 +38,8 @@ export default async function handler(req, res) {
             Check if the line of fortune (the vertical line in the middle of the palm) is continuous it means good future luck.
 
             Thumb Analysis (user-provided answers):
-            Middle knuckle flexibility → if present-“personal flexibility”, if not flexible- “inflexibility/stubbornness.”
-            Base flexibility → if flexible-“flexible family background”, if not flexible-“inflexible family background/ family members are stubborn.”
+            Middle knuckle bends easily → if yes-“personal flexibility”, if no- “inflexibility/stubbornness.”
+            Base flexibility → if yes-“flexible family background”, if no-“inflexible family background/ family members are stubborn.”
             
             Final Output Instructions (ONLY generate this):
             Write a single, flowing paragraph in the second person (“You are…”, “You possess…”).          
