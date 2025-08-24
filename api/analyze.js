@@ -38,8 +38,10 @@ export default async function handler(req, res) {
             Check if the line of fortune (the vertical line in the middle of the palm) is continuous it means good future luck.
 
             Thumb Analysis (user-provided answers):
-            bends easily at Middle knuckle line → if yes-tractable or flexible; if no- inflexible/stubborn/headstrong.
-            bends easily at Base → if yes- flexible family members who are open to change; if no- inflexible family background/ family members are stubborn.
+            The user's provided thumb traits ARE:
+                - Thumb (middle knuckle): The user is ${q4_answer === 'yes' ? 'flexible and open to change.' : 'stubborn and headstrong.'}
+                - Thumb (base): The user's family background is ${q5_answer === 'yes' ? 'flexible and open to change.' : 'inflexible and stubborn.'}
+
             
             Final Output Instructions (ONLY generate this):
             Write two, flowing paragraph in the second person (“You are…”, “You possess…”).          
