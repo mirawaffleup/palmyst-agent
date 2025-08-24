@@ -44,13 +44,13 @@ export default async function handler(req, res) {
 
             
             Final Output Instructions (ONLY generate this):
-            Write two, flowing paragraph in the second person (“You are…”, “You possess…”).          
+            Write only one, flowing paragraph in the second person (“You are…”, “You possess…”).          
             Blend all traits into a cohesive, narrative-style personality reading.
             
             DO NOT mention fingers, knuckles, lines, or any measurement process.       
             DO NOT list rules or comparisons.
 
-            give a simple and straightforward reading.
+            Make the tone wise, mystical, and interpretive—like a palm reader revealing deeper truths.
             
             Begin the reading now.
         `;
