@@ -13,7 +13,7 @@ export default async function handler(req, res) {
 
         // --- Part 1: AI Analysis using Gemini ---
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' }); // Using the latest efficient model
+        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro' }); // Using the latest efficient model
 
         const prompt = `
             You are PalMyst Agent, an expert in palmistry based on a specific set of rules.
