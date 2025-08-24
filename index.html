@@ -82,7 +82,99 @@
     </p>
 
     <script>
-        // Our JavaScript will go here in the next step
+       const genderSelect = document.getElementById('gender');
+const instructionsDiv = document.getElementById('instructions');
+const imageUploadSection = document.getElementById('image-upload-section');
+const thumbQuestionsSection = document.getElementById('thumb-questions-section');
+const palmImageInput = document.getElementById('palm-image');
+const submitButton = document.getElementById('submit-button');
+const loader = document.getElementById('loader');
+const resultDiv = document.getElementById('result');
+const resultText = document.getElementById('result-text');
+
+// 1. Logic for showing instructions and next steps based on gender selection
+genderSelect.addEventListener('change', function() {
+    if (this.value === 'male') {
+        instructionsDiv.innerHTML = "<strong>Instructions:</strong> Please upload a photo of your <strong>RIGHT</strong> hand.";
+    } else if (this.value === 'female') {
+        instructionsDiv.innerHTML = "<strong>Instructions:</strong> Please upload a photo of your <strong>LEFT</strong> hand.";
+    }
+    instructionsDiv.classList.remove('hidden');
+    imageUploadSection.classList.remove('hidden');
+});
+
+// 2. Logic to enable the submit button only when all fields are ready
+palmImageInput.addEventListener('change', function() {
+    thumbQuestionsSection.classList.remove('hidden');
+    // Enable button if an image is selected
+    if (palmImageInput.files && palmImageInput.files.length > 0) {
+        submitButton.disabled = false;
+    }
+});
+
+// 3. Main function to handle the form submission
+submitButton.addEventListener('click', async () => {
+    // Collect all data from the form
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
+    const q4_answer = document.getElementById('q4').value;
+    const q5_answer = document.getElementById('q5').value;
+    const imageFile = palmImageInput.files[0];
+
+    // Basic validation
+    if (!name || !imageFile) {
+        alert("Please provide your name and upload an image.");
+        return;
+    }
+
+    // Show loader and hide previous results
+    loader.classList.remove('hidden');
+    resultDiv.classList.add('hidden');
+    submitButton.disabled = true;
+    submitButton.innerText = "Analyzing...";
+
+    // Convert image to Base64 format, which is a way to send image data as text
+    const reader = new FileReader();
+    reader.readAsDataURL(imageFile);
+    reader.onloadend = async () => {
+        const base64data = reader.result.split(',')[1]; // Get only the data part
+
+        try {
+            // Send the data to our backend API function
+            const response = await fetch('/api/analyze', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: name,
+                    phone: phone,
+                    image_data: base64data,
+                    q4_answer: q4_answer,
+                    q5_answer: q5_answer
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Server error: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            
+            // Display the result from the AI
+            resultText.innerText = data.reading;
+            resultDiv.classList.remove('hidden');
+
+        } catch (error) {
+            console.error('Error:', error);
+            resultText.innerText = "Sorry, an error occurred. Please try again.";
+            resultDiv.classList.remove('hidden');
+        } finally {
+            // Hide loader and re-enable button
+            loader.classList.add('hidden');
+            submitButton.disabled = false;
+            submitButton.innerText = "Get My Reading";
+        }
+    };
+});
     </script>
 </body>
 </html>
