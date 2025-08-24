@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PalMyst Agent</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; background-color: #f4f7f6; color: #333; }
+        h1 { color: #2c3e50; text-align: center; }
+        .card { background-color: #ffffff; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        label { font-weight: bold; display: block; margin-bottom: 10px; }
+        input[type="text"], input[type="tel"], select, input[type="file"] { width: 95%; padding: 10px; border-radius: 4px; border: 1px solid #ccc; margin-bottom: 10px; }
+        button { display: block; width: 100%; padding: 12px; background-color: #3498db; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; margin-top: 20px; transition: background-color 0.3s; }
+        button:hover:not(:disabled) { background-color: #2980b9; }
+        button:disabled { background-color: #a9a9a9; cursor: not-allowed; }
+        #instructions, #result, #loader { margin-top: 20px; padding: 15px; border-radius: 4px; }
+        #instructions { background-color: #eafdfc; border: 1px solid #b2e0dd; }
+        #result { background-color: #fff3cd; border: 1px solid #ffeeba; white-space: pre-wrap; }
+        .hidden { display: none; }
+        .ethical-note { font-size: 12px; color: #777; text-align: center; margin-top: 30px; }
+        #loader { text-align: center; }
+    </style>
+</head>
+<body>
+
+    <h1>PalMyst Agent</h1>
+
+    <div class="card">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" placeholder="Enter your name">
+        <label for="phone">Your Phone Number:</label>
+        <input type="tel" id="phone" placeholder="Enter your phone number">
+    </div>
+
+    <div class="card">
+        <label>1. Select Your Gender</label>
+        <select id="gender">
+            <option value="" disabled selected>--Please choose an option--</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+        <div id="instructions" class="hidden"></div>
+    </div>
+
+    <div id="image-upload-section" class="card hidden">
+        <label for="palm-image">2. Upload a clear picture of your palm</label>
+        <input type="file" id="palm-image" accept="image/*">
+        <p style="font-size: 12px; color: #555;">We will analyze the image according to the instructions.</p>
+    </div>
+
+    <div id="thumb-questions-section" class="card hidden">
+        <label>3. Please answer these two questions:</label>
+        <div style="margin-top: 15px;">
+            <label for="q4">Does your thumb bend easily at the MIDDLE knuckle?</label>
+            <select id="q4">
+                <option value="yes">Yes, it bends easily.</option>
+                <option value="no">No, it does not bend easily.</option>
+            </select>
+        </div>
+        <div style="margin-top: 15px;">
+            <label for="q5">Does your thumb bend easily at the BASE (where it joins the palm)?</label>
+            <select id="q5">
+                <option value="yes">Yes, it bends easily.</option>
+                <option value="no">No, it does not bend easily.</option>
+            </select>
+        </div>
+    </div>
+
+    <button id="submit-button" disabled>Get My Reading</button>
+
+    <div id="loader" class="hidden">
+        <p>Reading your palm... Please wait.</p>
+    </div>
+
+    <div id="result" class="card hidden">
+        <h3>Your Personality Reading:</h3>
+        <p id="result-text"></p>
+    </div>
+
+    <p class="ethical-note">
+        This experience is intended for entertainment and self-reflection. The observations and interpretations do not constitute scientific or medical advice.
+    </p>
+
+    <script>
+        // Our JavaScript will go here in the next step
+    </script>
+</body>
+</html>
