@@ -48,7 +48,7 @@ export default async function handler(req, res) {
             DO NOT mention fingers, knuckles, lines, or any measurement process.       
             DO NOT list rules or comparisons.
             
-            Make the tone wise, mystical, and interpretive—like a palm reader revealing deeper truths.
+            
             Begin the reading now.
         `;
         
