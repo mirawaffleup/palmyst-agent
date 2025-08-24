@@ -39,7 +39,7 @@ export default async function handler(req, res) {
 
             Thumb Analysis (user-provided answers):
             Middle knuckle bends easily → if yes-“personal flexibility”, if no- “inflexibility/stubbornness.”
-            Base flexibility → if yes-“flexible family background”, if no-“inflexible family background/ family members are stubborn.”
+            Base bends easily → if yes-“flexible family background”, if no-“inflexible family background/ family members are stubborn.”
             
             Final Output Instructions (ONLY generate this):
             Write a single, flowing paragraph in the second person (“You are…”, “You possess…”).          
