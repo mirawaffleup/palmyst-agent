@@ -200,6 +200,11 @@ palmImageInput.addEventListener('change', function() {
 // 3. Main function to handle the form submission
 submitButton.addEventListener('click', async () => {
     // Collect all data from the form
+    // --- New, Stricter Phone Validation ---
+if (phone.length !== 11 || !/^[0-9]{11}$/.test(phone)) {
+    alert("Please enter a valid, 11-digit phone number to proceed.");
+    return; // Stop the function from proceeding
+}
     const name = document.getElementById('name').value;
     const phone = document.getElementById('phone').value;
     const q4_answer = document.getElementById('q4').value;
