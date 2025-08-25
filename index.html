@@ -166,14 +166,16 @@
 
     <script>
        const genderSelect = document.getElementById('gender');
-const instructionsDiv = document.getElementById('instructions');
-const imageUploadSection = document.getElementById('image-upload-section');
-const thumbQuestionsSection = document.getElementById('thumb-questions-section');
-const palmImageInput = document.getElementById('palm-image');
-const submitButton = document.getElementById('submit-button');
-const loader = document.getElementById('loader');
-const resultDiv = document.getElementById('result');
-const resultText = document.getElementById('result-text');
+    const instructionsDiv = document.getElementById('instructions');
+    const imageUploadSection = document.getElementById('image-upload-section');
+    const thumbQuestionsSection = document.getElementById('thumb-questions-section');
+    const palmImageInput = document.getElementById('palm-image');
+    const submitButton = document.getElementById('submit-button');
+    const loader = document.getElementById('loader');
+    const resultDiv = document.getElementById('result');
+    const resultText = document.getElementById('result-text');
+    const emailSection = document.getElementById('email-section');
+    const sendEmailButton = document.getElementById('send-email-button');
 
 // 1. Logic for showing instructions and next steps based on gender selection
 genderSelect.addEventListener('change', function() {
@@ -228,23 +230,31 @@ submitButton.addEventListener('click', async () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    name: name,
-                    phone: phone,
-                    image_data: base64data,
-                    q4_answer: q4_answer,
-                    q5_answer: q5_answer
+                name: name,
+                phone: phone,
+                image_data: base64data,
+                q4_answer: q4_answer,
+                q5_answer: q5_answer,
+                gender: genderSelect.value // <-- This line is now added
                 }),
             });
 
             if (!response.ok) {
-                throw new Error(`Server error: ${response.statusText}`);
+            // If the server sent a specific error message, display it.
+            // Otherwise, show a generic error.
+            if (response.status === 400 || response.status === 500) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || `Server error: ${response.statusText}`);
             }
+            throw new Error(`Server error: ${response.statusText}`);
+        }
 
             const data = await response.json();
             
             // Display the result from the AI
             resultText.innerText = data.reading;
             resultDiv.classList.remove('hidden');
+            emailSection.classList.remove('hidden'); // Show the email option
 
         } catch (error) {
             console.error('Error:', error);
@@ -258,6 +268,23 @@ submitButton.addEventListener('click', async () => {
         }
     };
 });
+    sendEmailButton.addEventListener('click', function() {
+    const emailAddress = document.getElementById('email-address').value;
+    const reading = resultText.innerText;
+
+    if (!emailAddress) {
+        alert('Please enter a valid email address.');
+        return;
+    }
+
+    // This creates a special 'mailto' link that opens the user's default email client
+    const subject = "Your PalMyst Reading";
+    const body = `Greetings,\n\nHere is the personality reading you requested:\n\n---\n\n${reading}\n\n---\n\nFrom the PalMyst Agent.`;
+    
+    window.location.href = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    
+    alert('Your email app should now open with the reading ready to send!');
+    });        
     </script>
 </body>
 </html>
