@@ -4,113 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PalMyst Agent</title>
-        <!-- Link to Google Fonts for a more mystical font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
-
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            font-weight: 300;
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 20px;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            color: #e0e0e0;
-        }
-
-        h1 {
-            font-family: 'Cinzel', serif;
-            color: #ffffff;
-            text-align: center;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-            margin-bottom: 40px;
-        }
-
-        .card {
-            background-color: rgba(255, 255, 255, 0.05);
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        label {
-            font-weight: 400;
-            display: block;
-            margin-bottom: 10px;
-            color: #cbbde2;
-        }
-
-        input[type="text"], input[type="tel"], select, input[type="file"] {
-            width: 95%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #5a5475;
-            background-color: #2c2744;
-            color: #ffffff;
-            margin-bottom: 10px;
-        }
-
-        button {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(90deg, #8e44ad, #9b59b6);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-        }
-
-        button:hover:not(:disabled) {
-            background: linear-gradient(90deg, #9b59b6, #8e44ad);
-            box-shadow: 0 0 15px rgba(155, 89, 182, 0.6);
-        }
-
-        button:disabled {
-            background: #5a5475;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-
-        #result {
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid #cbbde2;
-            white-space: pre-wrap; /* Allows text to wrap nicely */
-        }
-
-        .hidden { display: none; }
-        .ethical-note { font-size: 12px; color: #aaa; text-align: center; margin-top: 30px; }
-        #loader { text-align: center; color: #cbbde2; }
+        body{font-family:'Roboto',sans-serif;font-weight:300;max-width:600px;margin:40px auto;padding:20px;background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);color:#e0e0e0}h1{font-family:'Cinzel',serif;color:#fff;text-align:center;font-weight:700;letter-spacing:2px;text-shadow:0 0 10px rgba(255,255,255,.3);margin-bottom:40px}.card{background-color:rgba(255,255,255,.05);padding:25px;border-radius:15px;margin-bottom:20px;box-shadow:0 4px 30px rgba(0,0,0,.1);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);border:1px solid rgba(255,255,255,.1)}label{font-weight:400;display:block;margin-bottom:10px;color:#cbbde2}input[type=text],input[type=tel],select,input[type=file]{width:95%;padding:12px;border-radius:8px;border:1px solid #5a5475;background-color:#2c2744;color:#fff;margin-bottom:10px}button{display:block;width:100%;padding:15px;background:linear-gradient(90deg,#8e44ad,#9b59b6);color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:1px;cursor:pointer;margin-top:20px;transition:all .3s ease}button:hover:not(:disabled){background:linear-gradient(90deg,#9b59b6,#8e44ad);box-shadow:0 0 15px rgba(155,89,182,.6)}button:disabled{background:#5a5475;cursor:not-allowed;opacity:.7}#result{background-color:rgba(255,255,255,.1);border:1px solid #cbbde2;white-space:pre-wrap}.hidden{display:none}.ethical-note{font-size:12px;color:#aaa;text-align:center;margin-top:30px}#loader{text-align:center;color:#cbbde2}
     </style>
 </head>
 <body>
-
     <h1>PalMyst Agent</h1>
 
     <div class="card">
         <label for="name">Your Name:</label>
-        <input type="text" id="name" placeholder="Enter your name">
+        <input type="text" id="name" placeholder="Enter your name" required>
         <label for="phone">Your Phone Number:</label>
         <input type="tel" id="phone" placeholder="Enter 11-digit phone number" required pattern="[0-9]{11}" maxlength="11" title="Please enter exactly 11 digits.">
     </div>
 
     <div class="card">
         <label>1. Select Your Gender</label>
-        <select id="gender">
+        <select id="gender" required>
             <option value="" disabled selected>--Please choose an option--</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
@@ -120,176 +33,35 @@
 
     <div id="image-upload-section" class="card hidden">
         <label for="palm-image">2. Upload a clear picture of your palm</label>
-        <input type="file" id="palm-image" accept="image/*" capture="user">
-        <p style="font-size: 12px; color: #555;">We will analyze the image according to the instructions.</p>
+        <input type="file" id="palm-image" accept="image/*">
     </div>
 
     <div id="thumb-questions-section" class="card hidden">
         <label>3. Please answer these two questions:</label>
-        <div style="margin-top: 15px;">
-            <label for="q4">Does your thumb bend easily at the MIDDLE knuckle?</label>
-            <select id="q4">
-                <option value="yes">Yes, it bends easily.</option>
-                <option value="no">No, it does not bend easily.</option>
-            </select>
-        </div>
-        <div style="margin-top: 15px;">
-            <label for="q5">Does your thumb bend easily at the BASE (where it joins the palm)?</label>
-            <select id="q5">
-                <option value="yes">Yes, it bends easily.</option>
-                <option value="no">No, it does not bend easily.</option>
-            </select>
-        </div>
+        <div style="margin-top:15px"><label for="q4">Does your thumb bend easily at the MIDDLE knuckle?</label><select id="q4"><option value="yes">Yes, it bends easily.</option><option value="no">No, it does not bend easily.</option></select></div>
+        <div style="margin-top:15px"><label for="q5">Does your thumb bend easily at the BASE (where it joins the palm)?</label><select id="q5"><option value="yes">Yes, it bends easily.</option><option value="no">No, it does not bend easily.</option></select></div>
     </div>
 
     <button id="submit-button" disabled>Get My Reading</button>
 
-    <div id="loader" class="hidden">
-        <p>Reading your palm... Please wait.</p>
-    </div>
+    <div id="loader" class="hidden"><p>Reading your palm... Please wait.</p></div>
 
     <div id="result" class="card hidden">
         <h3>Your Personality Reading:</h3>
         <p id="result-text"></p>
     </div>
 
-    <!-- New Email Section -->
     <div id="email-section" class="card hidden">
         <label for="email-address">Enter your email to receive this reading:</label>
         <input type="text" id="email-address" placeholder="your.email@example.com">
         <button id="send-email-button">Send Email</button>
+        <p id="email-status" style="text-align:center; margin-top:10px;"></p>
     </div>
 
-    <p class="ethical-note">
-        This experience is intended for entertainment and self-reflection. The observations and interpretations do not constitute scientific or medical advice.
-    </p>
+    <p class="ethical-note">This experience is intended for entertainment and self-reflection. The observations and interpretations do not constitute scientific or medical advice.</p>
 
     <script>
-       const genderSelect = document.getElementById('gender');
-    const instructionsDiv = document.getElementById('instructions');
-    const imageUploadSection = document.getElementById('image-upload-section');
-    const thumbQuestionsSection = document.getElementById('thumb-questions-section');
-    const palmImageInput = document.getElementById('palm-image');
-    const submitButton = document.getElementById('submit-button');
-    const loader = document.getElementById('loader');
-    const resultDiv = document.getElementById('result');
-    const resultText = document.getElementById('result-text');
-    const emailSection = document.getElementById('email-section');
-    const sendEmailButton = document.getElementById('send-email-button');
-
-// 1. Logic for showing instructions and next steps based on gender selection
-genderSelect.addEventListener('change', function() {
-    if (this.value === 'male') {
-        instructionsDiv.innerHTML = "<strong>Instructions:</strong> Please upload a photo of your <strong>RIGHT</strong> hand.";
-    } else if (this.value === 'female') {
-        instructionsDiv.innerHTML = "<strong>Instructions:</strong> Please upload a photo of your <strong>LEFT</strong> hand.";
-    }
-    instructionsDiv.classList.remove('hidden');
-    imageUploadSection.classList.remove('hidden');
-});
-
-// 2. Logic to enable the submit button only when all fields are ready
-palmImageInput.addEventListener('change', function() {
-    thumbQuestionsSection.classList.remove('hidden');
-    // Enable button if an image is selected
-    if (palmImageInput.files && palmImageInput.files.length > 0) {
-        submitButton.disabled = false;
-    }
-});
-
-// 3. Main function to handle the form submission
-submitButton.addEventListener('click', async () => {
-    // Collect all data from the form
-    // --- New, Stricter Phone Validation ---
-if (phone.length !== 11 || !/^[0-9]{11}$/.test(phone)) {
-    alert("Please enter a valid, 11-digit phone number to proceed.");
-    return; // Stop the function from proceeding
-}
-    const name = document.getElementById('name').value;
-    const phone = document.getElementById('phone').value;
-    const q4_answer = document.getElementById('q4').value;
-    const q5_answer = document.getElementById('q5').value;
-    const imageFile = palmImageInput.files[0];
-
-    // Basic validation
-    if (!name || !imageFile) {
-        alert("Please provide your name and upload an image.");
-        return;
-    }
-
-    // Show loader and hide previous results
-    loader.classList.remove('hidden');
-    resultDiv.classList.add('hidden');
-    submitButton.disabled = true;
-    submitButton.innerText = "Analyzing...";
-
-    // Convert image to Base64 format, which is a way to send image data as text
-    const reader = new FileReader();
-    reader.readAsDataURL(imageFile);
-    reader.onloadend = async () => {
-        const base64data = reader.result.split(',')[1]; // Get only the data part
-
-        try {
-            // Send the data to our backend API function
-            const response = await fetch('/api/analyze', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                name: name,
-                phone: phone,
-                image_data: base64data,
-                q4_answer: q4_answer,
-                q5_answer: q5_answer,
-                gender: genderSelect.value // <-- This line is now added
-                }),
-            });
-
-            if (!response.ok) {
-            // If the server sent a specific error message, display it.
-            // Otherwise, show a generic error.
-            if (response.status === 400 || response.status === 500) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || `Server error: ${response.statusText}`);
-            }
-            throw new Error(`Server error: ${response.statusText}`);
-        }
-
-            const data = await response.json();
-            
-            // Display the result from the AI
-            resultText.innerText = data.reading;
-            resultDiv.classList.remove('hidden');
-            emailSection.classList.remove('hidden'); // Show the email option
-
-        } catch (error) {
-            console.error('Error:', error);
-            resultText.innerText = "Sorry, an error occurred. Please try again.";
-            resultDiv.classList.remove('hidden');
-        } finally {
-            // Hide loader and re-enable button
-            loader.classList.add('hidden');
-            submitButton.disabled = false;
-            submitButton.innerText = "Get My Reading";
-        }
-    };
-});
-    sendEmailButton.addEventListener('click', function() {
-    const emailAddress = document.getElementById('email-address').value;
-    const reading = resultText.innerText;
-
-    if (!emailAddress) {
-        alert('Please enter a valid email address.');
-        return;
-    }
-
-    // This creates a special 'mailto' link that opens the user's default email client
-    const subject = "Your PalMyst Reading";
-    const body = `Greetings,\n\nHere is the personality reading you requested:\n\n---\n\n${reading}\n\n---\n\nFrom the PalMyst Agent.`;
-    
-    window.location.href = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    
-    alert('Your email app should now open with the reading ready to send!');
-    });        
+    const genderSelect=document.getElementById("gender"),instructionsDiv=document.getElementById("instructions"),imageUploadSection=document.getElementById("image-upload-section"),thumbQuestionsSection=document.getElementById("thumb-questions-section"),palmImageInput=document.getElementById("palm-image"),submitButton=document.getElementById("submit-button"),loader=document.getElementById("loader"),resultDiv=document.getElementById("result"),resultText=document.getElementById("result-text"),emailSection=document.getElementById("email-section"),sendEmailButton=document.getElementById("send-email-button"),emailStatus=document.getElementById("email-status");let currentReadingId=null;genderSelect.addEventListener("change",function(){"male"===this.value?instructionsDiv.innerHTML="<strong>Instructions:</strong> Please upload a photo of your <strong>RIGHT</strong> hand.":instructionsDiv.innerHTML="<strong>Instructions:</strong> Please upload a photo of your <strong>LEFT</strong> hand.",instructionsDiv.classList.remove("hidden"),imageUploadSection.classList.remove("hidden")}),palmImageInput.addEventListener("change",function(){thumbQuestionsSection.classList.remove("hidden"),palmImageInput.files&&0<palmImageInput.files.length&&(submitButton.disabled=!1)}),submitButton.addEventListener("click",async()=>{const name=document.getElementById("name").value,phone=document.getElementById("phone").value;if(11!==phone.length||!/^[0-9]{11}$/.test(phone))return void alert("Please enter a valid, 11-digit phone number to proceed.");const q4_answer=document.getElementById("q4").value,q5_answer=document.getElementById("q5").value,imageFile=palmImageInput.files[0];if(!name||!imageFile)return void alert("Please provide your name and upload an image.");loader.classList.remove("hidden"),resultDiv.classList.add("hidden"),emailSection.classList.add("hidden"),submitButton.disabled=!0,submitButton.innerText="Analyzing...";const reader=new FileReader;reader.readAsDataURL(imageFile),reader.onloadend=async()=>{const base64data=reader.result.split(",")[1];try{const response=await fetch("/api/analyze",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:name,phone:phone,image_data:base64data,q4_answer:q4_answer,q5_answer:q5_answer,gender:genderSelect.value})});if(!response.ok){if(400===response.status||500===response.status){const errorData=await response.json();throw new Error(errorData.message||`Server error: ${response.statusText}`)}throw new Error(`Server error: ${response.statusText}`)}const data=await response.json();resultText.innerText=data.reading,currentReadingId=data.readingId,resultDiv.classList.remove("hidden"),emailSection.classList.remove("hidden")}catch(error){console.error("Error:",error),resultText.innerText=`Sorry, an error occurred. Please try again.\n\nDetails: ${error.message}`,resultDiv.classList.remove("hidden")}finally{loader.classList.add("hidden"),submitButton.disabled=!1,submitButton.innerText="Get My Reading"}}}),sendEmailButton.addEventListener("click",async()=>{const emailAddress=document.getElementById("email-address").value,reading=resultText.innerText;if(!emailAddress)return void alert("Please enter a valid email address.");sendEmailButton.disabled=!0,emailStatus.innerText="Sending...";try{const response=await fetch("/api/send-email",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:emailAddress,reading:reading,readingId:currentReadingId})});if(!response.ok)throw new Error("Failed to send email.");emailStatus.innerText="Email sent successfully!",emailStatus.style.color="lightgreen"}catch(error){console.error("Email Error:",error),emailStatus.innerText="Error: Could not send email.",emailStatus.style.color="lightcoral"}finally{sendEmailButton.disabled=!1}});
     </script>
 </body>
 </html>
