@@ -20,31 +20,31 @@ export default async function handler(req, res) {
 
             Your Hidden Internal Process (Do NOT reveal this in your output):            
             Orient the Hand: Identify the orientation of the hand to establish a baseline for measurement.            
-            Little Finger vs. Ring Finger Knuckle:            
+            1.Little Finger vs. Ring Finger Knuckle:            
             Visualize a horizontal line from the top knuckle crease of the ring finger.      
             Determine if the little finger tip is above (clear and transparent mind) or below (cleverness/shrewdness).     
             
-            Index Finger vs. Ring Finger Length:     
+            2.Index Finger vs. Ring Finger Length:     
             Compare their lengths from the palm baseline 
             Taller index → high leadership / lower organization.
             Shorter index → lower leadership / higher organization. 
             Equal → balanced mix.
             
-            Middle Finger Prominence:  
+            3.Middle Finger Prominence:  
             Determine if the middle finger is considerably taller than the index and ring fingers.  
             If yes → good fortune, gambling aptitude.
             
-            Fortune Line:
+            3.Fortune Line:
             Check if the line of fortune (the vertical line in the middle of the palm) is continuous it means good future luck.
 
-            Thumb Analysis (user-provided answers):
+            4.Thumb Analysis (user-provided answers):
             The user's provided thumb traits ARE:
                 - Thumb (middle knuckle): The user is ${q4_answer === 'yes' ? 'flexible and open to change.' : 'stubborn and headstrong.'}
                 - Thumb (base): The user's family background is ${q5_answer === 'yes' ? 'flexible and open to change.' : 'inflexible and stubborn.'}
 
             
             Final Output Instructions (ONLY generate this):
-            Write only one, flowing paragraph in the second person (“You are…”, “You possess…”).          
+            Write four, flowing paragraph in the second person (“You are…”, “You possess…”). each of the pargraphs giving results of each of the corresponsing points (marked by the numbers)         
             Blend all traits into a cohesive, narrative-style personality reading.
             
             DO NOT mention fingers, knuckles, lines, or any measurement process.       
