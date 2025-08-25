@@ -1,88 +1,60 @@
- const { GoogleGenerativeAI } = require('@google/generative-ai');
+// This is the content for api/analyze.js
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 const { createClient } = require('@supabase/supabase-js');
 
-// This is the main function that Vercel will run
 export default async function handler(req, res) {
-    // Only allow POST requests, reject others
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Only POST requests are allowed' });
     }
 
     try {
-        const { name, phone, image_data, q4_answer, q5_answer } = req.body;
-
-        // --- Part 1: AI Analysis using Gemini ---
+        const { name, phone, image_data, q4_answer, q5_answer, gender } = req.body;
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
         const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+        const image_parts = [{ inlineData: { data: image_data, mimeType: 'image/jpeg' } }];
 
-        const prompt = `
-            You are PalMyst, a wise and mystical palm reader. Your task is to analyze the user-provided palm image and deliver a single-paragraph personality reading.
+        // Step 1: Image Validation
+        const validation_prompt = `Analyze this image with two checks.
+        1. Is it a clear photo of a human palm? (Answer "yes" or "no").
+        2. If yes, is it a left or right palm? (Answer "left", "right", or "unknown").
+        Respond ONLY in this JSON format: {"is_palm": "answer", "hand_type": "answer"}`;
 
-            Your Hidden Internal Process (Do NOT reveal this in your output):            
-            Orient the Hand: Identify the orientation of the hand to establish a baseline for measurement.            
-            1.Little Finger vs. Ring Finger Knuckle:            
-            Visualize a horizontal line from the top knuckle crease of the ring finger.      
-            Determine if the little finger tip is above (clear and transparent mind) or below (cleverness/shrewdness).     
-            
-            2.Index Finger vs. Ring Finger Length:     
-            Compare their lengths from the palm baseline 
-            Taller index → high leadership / lower organization.
-            Shorter index → lower leadership / higher organization. 
-            Equal → balanced mix.
-            
-            3.Middle Finger Prominence:  
-            Determine if the middle finger is considerably taller than the index and ring fingers.  
-            If yes → good fortune, gambling aptitude.
-            
-            3.Fortune Line:
-            Check if the line of fortune (the vertical line in the middle of the palm) is continuous it means good future luck.
+        const validationResult = await model.generateContent([validation_prompt, ...image_parts]);
+        let validationData = JSON.parse(validationResult.response.text());
 
-            4.Thumb Analysis (user-provided answers):
-            The user's provided thumb traits ARE:
-                - Thumb (middle knuckle): The user is ${q4_answer === 'yes' ? 'flexible and open to change.' : 'stubborn and headstrong.'}
-                - Thumb (base): The user's family background is ${q5_answer === 'yes' ? 'flexible and open to change.' : 'inflexible and stubborn.'}
-
-            
-            Final Output Instructions (ONLY generate this):
-            Write four, flowing paragraph in the second person (“You are…”, “You possess…”). each of the pargraphs giving results of each of the corresponsing points (marked by the numbers)         
-            Blend all traits into a cohesive, narrative-style personality reading.
-            
-            DO NOT mention fingers, knuckles, lines, or any measurement process.       
-            DO NOT list rules or comparisons.
-
-            Make the tone wise, mystical, and interpretive—like a palm reader revealing deeper truths.
-            
-            Begin the reading now.
-        `;
-        
-        const image_parts = [{
-            inlineData: {
-                data: image_data,
-                mimeType: 'image/jpeg'
-            }
-        }];
-
-        const result = await model.generateContent([prompt, ...image_parts]);
-        const ai_reading = result.response.text();
-
-        // --- Part 2: Save to Supabase Database ---
-        const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
-
-        const { data, error } = await supabase
-            .from('readings')
-            .insert([
-                { name: name, phone: phone, reading: ai_reading }
-            ]);
-
-        if (error) {
-            console.error('Supabase error:', error);
+        if (validationData.is_palm !== "yes") {
+            return res.status(400).json({ message: "The image is not a palm. Please upload the correct picture." });
         }
 
-        // --- Part 3: Send the reading back to the user ---
-        res.status(200).json({ reading: ai_reading });
+        const required_hand = gender === 'male' ? 'right' : 'left';
+        if (validationData.hand_type !== "unknown" && validationData.hand_type !== required_hand) {
+            return res.status(400).json({ message: `Wrong palm detected. A ${gender} requires the ${required_hand} hand. Please try again.` });
+        }
+
+        // Step 2: Personality Reading
+        const reading_prompt = `You are PalMyst, a wise palm reader. Analyze the user's information and deliver a final personality reading.
+        Internal Analysis (Do NOT reveal):
+        - Analyze the palm image based on standard palmistry rules.
+        - The user is ${q4_answer === 'yes' ? 'flexible and open to change.' : 'stubborn and headstrong.'}
+        - Their family background is ${q5_answer === 'yes' ? 'flexible.' : 'inflexible.'}
+        Final Output Instructions:
+        - Synthesize all findings into a single, cohesive paragraph written in the second person ("You possess...").
+        - DO NOT mention your reasoning, fingers, or lines.
+        Begin the reading now.`;
+        
+        const readingResult = await model.generateContent([reading_prompt, ...image_parts]);
+        const ai_reading = readingResult.response.text();
+
+        // Step 3: Save to Database and return the new reading's ID
+        const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
+        const { data, error } = await supabase.from('readings').insert([{ name, phone, reading: ai_reading }]).select('id').single();
+
+        if (error) throw error;
+
+        res.status(200).json({ reading: ai_reading, readingId: data.id });
 
     } catch (error) {
         console.error('Error in analyze function:', error);
-        res.status(500).json({ message: 'An error occurred during the analysis.' });
+        res.status(500).json({ message: 'An error occurred during analysis.' });
     }
 }
