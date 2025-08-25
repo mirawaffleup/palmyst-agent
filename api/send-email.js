@@ -1,4 +1,3 @@
-// This is the content for the new file: api/send-email.js
 const nodemailer = require('nodemailer');
 const { createClient } = require('@supabase/supabase-js');
 
@@ -10,16 +9,11 @@ export default async function handler(req, res) {
     const { email, reading, readingId } = req.body;
 
     try {
-        // Step 1: Update the user's record in the database with their email
+        // Step 1: Update the user's record in the database
         const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
-        const { error: dbError } = await supabase.from('readings').update({ email: email }).eq('id', readingId);
+        await supabase.from('readings').update({ email: email }).eq('id', readingId);
 
-        if (dbError) {
-            console.error("Supabase update error:", dbError);
-            // Don't stop the email from sending, just log the error
-        }
-
-        // Step 2: Send the email using Nodemailer
+        // Step 2: Send the email
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -37,7 +31,6 @@ export default async function handler(req, res) {
         };
 
         await transporter.sendMail(mailOptions);
-
         res.status(200).json({ message: 'Email sent successfully!' });
 
     } catch (error) {
